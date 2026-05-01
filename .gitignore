@@ -1,0 +1,18 @@
+# Whitelist : tout est ignoré sauf les fichiers explicitement listés ci-dessous
+*
+
+# Documentation et code du patch
+!README.md
+!REVERSE_ENGINEERING.md
+!LICENSE
+!.gitignore
+
+# Scripts d'installation
+!apply_patch.py
+!restore.sh
+
+# Fichiers du patch
+!snippet_new_method.php
+!veolia_eau_process.class.php
+!veolia_eau_process.class.php.original
+!veolia_eau_TR_v1.patch

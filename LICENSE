@@ -1,0 +1,14 @@
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 19 November 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+This patch is a derivative work of the Jeedom plugin "veolia_eau" by
+Damien Virlouvet (NextDom), licensed under AGPL-3.0. As such, this
+patch is also distributed under AGPL-3.0.
+
+Full license text: https://www.gnu.org/licenses/agpl-3.0.txt
+
+Original plugin source: https://github.com/NextDom/plugin-veolia_eau
