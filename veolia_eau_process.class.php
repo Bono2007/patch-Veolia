@@ -349,11 +349,14 @@ class veolia_eau extends eqLogic {
 
         // Le csrfToken est embarqué dans le HTML, escapé en Unicode :
         // ..."csrfToken":"<TOKEN>"...   (échappé en "/: dans la source)
-        if (!preg_match('/csrfToken\\\\u0022\\\\u003A\\\\u0022([^\\\\]+)\\\\u0022/', $loginHtml, $mt)) {
+        if (!preg_match('/csrfToken\\\\u0022\\\\u003A\\\\u0022(.*?)\\\\u0022/', $loginHtml, $mt)) {
             log::add('veolia_eau', 'error', 'TR: csrfToken introuvable dans la page de login');
             curl_close($ch); @unlink($cookie_file); return -1;
         }
-        $csrf = $mt[1];
+        // Decode unicode escapes dans le token (ex: \\u002D -> -)
+        $csrf = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function($m) {
+            return mb_chr(hexdec($m[1]), 'UTF-8');
+        }, $mt[1]);
         log::add('veolia_eau', 'debug', 'TR: csrfToken=' . substr($csrf, 0, 16) . '...');
 
         // 2. POST le login (form Symfony classique)

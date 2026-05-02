@@ -1,6 +1,6 @@
---- /tmp/veolia_original.php	2026-05-01 14:11:31
-+++ /tmp/veolia_patched.php	2026-05-01 14:11:31
-@@ -303,8 +303,222 @@
+--- veolia_eau_process.class.php.original	2026-05-01 14:22:14
++++ veolia_eau_process.class.php	2026-05-02 10:27:14
+@@ -303,8 +303,225 @@
       */
  
      /*     * **********************Getteur Setteur*************************** */
@@ -50,13 +50,16 @@
 +
 +        // Le csrfToken est embarqué dans le HTML, escapé en Unicode :
 +        // ..."csrfToken":"<TOKEN>"...   (échappé en "/: dans la source)
-+        if (!preg_match('/csrfToken\\\\u0022\\\\u003A\\\\u0022([^\\\\]+)\\\\u0022/', $loginHtml, $mt)) {
++        if (!preg_match('/csrfToken\\\\u0022\\\\u003A\\\\u0022(.*?)\\\\u0022/', $loginHtml, $mt)) {
 +            log::add('veolia_eau', 'error', 'TR: csrfToken introuvable dans la page de login');
 +            curl_close($ch); @unlink($cookie_file); return -1;
 +        }
-+        $csrf = $mt[1];
++        // Decode unicode escapes dans le token (ex: \\u002D -> -)
++        $csrf = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function($m) {
++            return mb_chr(hexdec($m[1]), 'UTF-8');
++        }, $mt[1]);
 +        log::add('veolia_eau', 'debug', 'TR: csrfToken=' . substr($csrf, 0, 16) . '...');
-+
+ 
 +        // 2. POST le login (form Symfony classique)
 +        log::add('veolia_eau', 'debug', '### TR: POST login ###');
 +        $postFields = http_build_query(array(
@@ -199,7 +202,7 @@
 +                ));
 +            }
 +        }
- 
++
 +        // 8. Persiste compteur + last (config eqLogic)
 +        if ($lastIndex > 0) {
 +            log::add('veolia_eau', 'debug', 'TR: save compteur='.$lastIndex);
