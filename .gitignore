@@ -16,3 +16,7 @@
 !veolia_eau_process.class.php
 !veolia_eau_process.class.php.original
 !veolia_eau_TR_v1.patch
+
+# Plugin The Lounge FiSH
+!thelounge-plugin-fish/
+!thelounge-plugin-fish/**

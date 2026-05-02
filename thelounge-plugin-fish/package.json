@@ -1,0 +1,11 @@
+{
+  "name": "thelounge-plugin-fish",
+  "version": "1.0.0",
+  "description": "FiSH Blowfish CBC/ECB decryption for The Lounge IRC client",
+  "keywords": ["thelounge-plugin"],
+  "main": "index.js",
+  "license": "MIT",
+  "thelounge": {
+    "supports": ">=4.0.0"
+  }
+}
